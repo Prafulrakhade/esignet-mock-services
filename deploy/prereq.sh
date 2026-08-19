@@ -8,7 +8,7 @@ fi
 
 ROOT_DIR=`pwd`
 NS=mockid
-ESIGNET_NS=esignet
+ESIGNET_NS=esignet-thunder
 SOFTHSM_NS=softhsm
 SOFTHSM_CHART_VERSION=12.0.1
 

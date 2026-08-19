@@ -22,9 +22,9 @@ function installing_mock-relying-party-ui() {
   helm repo add mosip https://mosip.github.io/mosip-helm
   helm repo update
 
-  NS=esignet
-  MOCK_REPLYING_PARTY_UI_SERVICE_NAME=mock-relying-party-ui
-  MOCK_REPLYING_PARTY_SERVICE_NAME=mock-relying-party-service
+  NS=esignet-thunder
+  MOCK_REPLYING_PARTY_UI_SERVICE_NAME=mock-relying-party-ui-thunder
+  MOCK_REPLYING_PARTY_SERVICE_NAME=mock-relying-party-service-thunder
   CHART_VERSION=0.0.1-develop
 
   read -p "Please provide mock relying party ui domain (eg: healthservices.sandbox.xyz.net ) : " MOCK_UI_HOST
@@ -45,10 +45,10 @@ function installing_mock-relying-party-ui() {
   echo Istio label
   kubectl label ns $NS istio-injection=enabled --overwrite
 
-  ESIGNET_HOST=$(kubectl -n $NS get cm esignet-global -o jsonpath={.data.mosip-esignet-host})
+  ESIGNET_HOST=$(kubectl -n $NS get cm esignet-global -o jsonpath={.data.mosip-esignet-thunder-host})
 
   echo Installing Mock Relying Party UI
-  helm -n $NS install $MOCK_REPLYING_PARTY_UI_SERVICE_NAME mosip/mock-relying-party-ui \
+  helm -n $NS install $MOCK_REPLYING_PARTY_UI_SERVICE_NAME /home/techno-467/IdeaProjects/esignet-mock-services/helm/mock-relying-party-ui \
       --set mock_relying_party_ui.MOCK_RELYING_PARTY_SERVICE_INTERNAL_URL="http://$MOCK_REPLYING_PARTY_SERVICE_NAME.$NS" \
       --set mock_relying_party_ui.mock_relying_party_ui_service_host="$MOCK_UI_HOST" \
       --set mock_relying_party_ui.ESIGNET_UI_BASE_URL="https://$ESIGNET_HOST" \
